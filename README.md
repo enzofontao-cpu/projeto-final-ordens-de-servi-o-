@@ -1,4 +1,4 @@
-# Descomplica
+# Descomplica OS
 
 > Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
 > Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Aluno(a)** | Enzo Renan Fontão |
-| **Turma** | |
+| **Turma** | TEC-N-001788/2026 |
 | **Opção escolhida** | Ordens de Serviço |
 | **Versão atual** | 0.1.0 |
 
@@ -16,14 +16,14 @@
 ## 1. Visão geral
 
 ### 1.1 Problema
-<!-- Que problema o sistema resolve? Quem sofre com esse problema hoje e como ele é resolvido (planilha, papel, WhatsApp...)? 3 a 5 linhas. -->
+O atual sistema de registro de ordens de serviço é extremamente datado, dificultando o cadastro, acompanhamento e atualização dos serviços. Informações podem ficar espalhadas em sistemas antigos, planilhas ou registros manuais, tornando o processo mais lento e sujeito a erros.O Descomplica OS tem como objetivo centralizar essas informações em uma aplicação web simples, moderna e organizada, facilitando o controle das ordens de serviço desde sua abertura até a conclusão.
 
 ### 1.2 Canvas do projeto
 
 | Bloco | Resposta |
 |---|---|
 | **Usuários** (quem usa o sistema) | |
-| **Problema** (dor atual) | |
+| **Problema**  | O antio site de registro está extremamente datado |
 | **Proposta de valor** (o que melhora com o sistema) | |
 | **Funcionalidades principais** | |
 | **Informações que o sistema guarda** | |
@@ -114,3 +114,16 @@ Java 21 · Spring Boot 4 · Spring MVC · Thymeleaf · Bootstrap 5 · Spring Dat
 | Versão | Data | Descrição |
 |---|---|---|
 | 0.1.0 | | Projeto inicial criado a partir do repositório modelo |
+
+> Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
+> Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
+> também será o manual técnico de como executar o sistema.
+
+| | |
+|---|---|
+| **Aluno(a)** | Enzo Renan Fontão |
+| **Turma** | TEC-N-001788/2026 |
+| **Opção escolhida** | Ordens de Serviço |
+| **Versão atual** | 0.1.0 |
+
+---
