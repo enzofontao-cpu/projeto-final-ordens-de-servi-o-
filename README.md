@@ -6,9 +6,9 @@
 
 | | |
 |---|---|
-| **Aluno(a)** | Seu nome completo |
+| **Aluno(a)** | Enzo Renan Fontão |
 | **Turma** | |
-| **Opção escolhida** | Ordens de Serviço · Controle de Estoque · Agendamento de Serviços · Proposta própria |
+| **Opção escolhida** | Ordens de Serviço |
 | **Versão atual** | 0.1.0 |
 
 ---
