@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Clientes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Clientes</h1>
+        <!-- ${#lists.size(...)} conta quantos itens a lista tem -->
+        <span class="badge text-bg-secondary" th:text="${#lists.size(clientes)} + ' registro(s)'">0 registro(s)</span>
+    </div>
+
+    <!-- Mensagem quando ainda não há registros -->
+    <div th:if="${#lists.isEmpty(clientes)}" class="alert alert-info">Nenhum registro cadastrado.</div>
+
+    <div class="card shadow-sm" th:unless="${#lists.isEmpty(clientes)}">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th>Cidade</th>
+                    <th>Cliente desde</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- th:each repete a linha <tr> para cada item da lista "clientes" -->
+                <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.nome}">Nome</td>
+                    <td th:text="${cliente.telefone}">Telefone</td>
+                    <td th:text="${cliente.email}">E-mail</td>
+                    <td th:text="${cliente.cidade}">Cidade</td>
+                    <td th:text="${#temporals.format(cliente.dataCadastro, 'dd/MM/yyyy')}">01/01/2026</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: rodape}"></footer>
+</body>
+</html>

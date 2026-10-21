@@ -1,4 +1,4 @@
-# Descomplica OS
+# Nome do Sistema
 
 > Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
 > Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
@@ -6,9 +6,9 @@
 
 | | |
 |---|---|
-| **Aluno(a)** | Enzo Renan Fontão |
-| **Turma** | TEC-N-001788/2026 |
-| **Opção escolhida** | Ordens de Serviço |
+| **Aluno(a)** | Seu nome completo |
+| **Turma** | |
+| **Opção escolhida** | Ordens de Serviço · Controle de Estoque · Agendamento de Serviços · Proposta própria |
 | **Versão atual** | 0.1.0 |
 
 ---
@@ -16,14 +16,14 @@
 ## 1. Visão geral
 
 ### 1.1 Problema
-O atual sistema de registro de ordens de serviço é extremamente datado, dificultando o cadastro, acompanhamento e atualização dos serviços. Informações podem ficar espalhadas em sistemas antigos, planilhas ou registros manuais, tornando o processo mais lento e sujeito a erros.O Descomplica OS tem como objetivo centralizar essas informações em uma aplicação web simples, moderna e organizada, facilitando o controle das ordens de serviço desde sua abertura até a conclusão.
+<!-- Que problema o sistema resolve? Quem sofre com esse problema hoje e como ele é resolvido (planilha, papel, WhatsApp...)? 3 a 5 linhas. -->
 
 ### 1.2 Canvas do projeto
 
 | Bloco | Resposta |
 |---|---|
 | **Usuários** (quem usa o sistema) | |
-| **Problema**  | O antio site de registro está extremamente datado |
+| **Problema** (dor atual) | |
 | **Proposta de valor** (o que melhora com o sistema) | |
 | **Funcionalidades principais** | |
 | **Informações que o sistema guarda** | |
@@ -74,8 +74,35 @@ Formato: **Como** *[papel]*, **quero** *[ação]*, **para** *[benefício]*.
 
 ## 4. Modelo de dados
 
-<!-- Encontro 2: apague este comentário (as duas linhas) e cole aqui o diagrama de classes
-     em Mermaid (bloco que começa com ```mermaid), conforme o manual do Encontro 2. -->
+```mermaid
+classDiagram
+    direction LR
+    class Cliente {
+        Long id
+        String nome
+        String telefone
+        String email
+        String cidade
+        LocalDate dataCadastro
+    }
+    class Tecnico {
+        Long id
+        String nome
+        String especialidade
+        String telefone
+    }
+    class OrdemServico {
+        Long id
+        String equipamento
+        String defeitoRelatado
+        String diagnostico
+        BigDecimal valor
+        String status
+        LocalDate dataAbertura
+    }
+    Cliente "1" --> "*" OrdemServico : solicita
+    Tecnico "1" --> "*" OrdemServico : atende
+```
 
 ---
 
@@ -114,16 +141,3 @@ Java 21 · Spring Boot 4 · Spring MVC · Thymeleaf · Bootstrap 5 · Spring Dat
 | Versão | Data | Descrição |
 |---|---|---|
 | 0.1.0 | | Projeto inicial criado a partir do repositório modelo |
-
-> Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
-> Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
-> também será o manual técnico de como executar o sistema.
-
-| | |
-|---|---|
-| **Aluno(a)** | Enzo Renan Fontão |
-| **Turma** | TEC-N-001788/2026 |
-| **Opção escolhida** | Ordens de Serviço |
-| **Versão atual** | 0.1.0 |
-
----
