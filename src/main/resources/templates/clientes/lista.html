@@ -12,8 +12,11 @@
         <a th:href="@{/clientes/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo cliente</a>
     </div>
 
-    <!-- Mensagem de sucesso: fragmento reaproveitado do layout -->
-    <div th:replace="~{fragments/layout :: mensagens}"></div>
+    <!-- Mensagem de sucesso enviada pelo controller (aparece uma vez, depois de salvar ou excluir) -->
+    <div th:if="${mensagem}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${mensagem}">Mensagem</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
 
     <!-- Mensagem quando ainda não há registros -->
     <div th:if="${#lists.isEmpty(clientes)}" class="alert alert-info">Nenhum registro encontrado.</div>
@@ -28,7 +31,6 @@
                     <th>E-mail</th>
                     <th>Cidade</th>
                     <th>Cliente desde</th>
-                    <th class="text-end">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,14 +41,6 @@
                     <td th:text="${cliente.email}">E-mail</td>
                     <td th:text="${cliente.cidade}">Cidade</td>
                     <td th:text="${#temporals.format(cliente.dataCadastro, 'dd/MM/yyyy')}">01/01/2026</td>
-                    <td class="text-end text-nowrap">
-                        <a th:href="@{/clientes/{id}/editar(id=${cliente.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
-                        <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
-                        <form th:action="@{/clientes/{id}/excluir(id=${cliente.id})}" method="post" class="d-inline"
-                              onsubmit="return confirm('Confirma a exclusão deste registro?');">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Excluir</button>
-                        </form>
-                    </td>
                 </tr>
                 </tbody>
             </table>
