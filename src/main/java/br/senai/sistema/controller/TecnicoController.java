@@ -1,5 +1,6 @@
 package br.senai.sistema.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,11 +64,19 @@ public class TecnicoController {
         return "tecnicos/form";
     }
 
-    /** POST /tecnicos/5/excluir -> exclui o registro de id 5. */
+    /**
+     * POST /tecnicos/5/excluir -> exclui o registro de id 5.
+     * Se houver registros ligados a ele, o banco recusa a exclusão (integridade referencial)
+     * e o sistema mostra um aviso, em vez de uma página de erro.
+     */
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, RedirectAttributes atributos) {
-        tecnicoService.excluir(id);
-        atributos.addFlashAttribute("mensagem", "Técnico excluído com sucesso.");
+        try {
+            tecnicoService.excluir(id);
+            atributos.addFlashAttribute("mensagem", "Técnico excluído com sucesso.");
+        } catch (DataIntegrityViolationException e) {
+            atributos.addFlashAttribute("erro", "Não é possível excluir: existem ordens de serviço ligadas a este técnico.");
+        }
         return "redirect:/tecnicos";
     }
 }

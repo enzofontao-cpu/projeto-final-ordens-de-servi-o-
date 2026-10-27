@@ -1,5 +1,6 @@
 package br.senai.sistema.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,11 +64,19 @@ public class ClienteController {
         return "clientes/form";
     }
 
-    /** POST /clientes/5/excluir -> exclui o registro de id 5. */
+    /**
+     * POST /clientes/5/excluir -> exclui o registro de id 5.
+     * Se houver registros ligados a ele, o banco recusa a exclusão (integridade referencial)
+     * e o sistema mostra um aviso, em vez de uma página de erro.
+     */
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, RedirectAttributes atributos) {
-        clienteService.excluir(id);
-        atributos.addFlashAttribute("mensagem", "Cliente excluído com sucesso.");
+        try {
+            clienteService.excluir(id);
+            atributos.addFlashAttribute("mensagem", "Cliente excluído com sucesso.");
+        } catch (DataIntegrityViolationException e) {
+            atributos.addFlashAttribute("erro", "Não é possível excluir: existem ordens de serviço ligadas a este cliente.");
+        }
         return "redirect:/clientes";
     }
 }
