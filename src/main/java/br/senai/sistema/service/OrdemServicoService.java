@@ -29,6 +29,14 @@ public class OrdemServicoService {
         return ordemServicoRepository.findAll(Sort.by("dataAbertura"));
     }
 
+    /** Lista os registros de uma situação; sem filtro (null), lista todos. */
+    public List<OrdemServico> listar(StatusOrdem status) {
+        if (status == null) {
+            return listarTodos();
+        }
+        return ordemServicoRepository.findByStatus(status, Sort.by("dataAbertura"));
+    }
+
     /** Busca um registro pelo id. Se não existir, gera um erro com mensagem clara. */
     public OrdemServico buscarPorId(Long id) {
         return ordemServicoRepository.findById(id)

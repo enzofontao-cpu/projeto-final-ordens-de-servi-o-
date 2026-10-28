@@ -15,6 +15,16 @@
     <!-- Mensagem de sucesso: fragmento reaproveitado do layout -->
     <div th:replace="~{fragments/layout :: mensagens}"></div>
 
+    <!-- Filtro: envia a escolha como ?status=... para o próprio endereço da lista -->
+    <form th:action="@{/ordens}" method="get" class="d-flex gap-2 mb-3">
+        <select name="status" class="form-select w-auto">
+            <option value="">Todas as situações</option>
+            <option th:each="item : ${situacoes}" th:value="${item}" th:text="${item.descricao}"
+                    th:selected="${item == status}">Situação</option>
+        </select>
+        <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-funnel"></i> Filtrar</button>
+    </form>
+
     <!-- Mensagem quando ainda não há registros -->
     <div th:if="${#lists.isEmpty(ordens)}" class="alert alert-info">Nenhum registro encontrado.</div>
 
@@ -46,12 +56,10 @@
                     <td class="text-end text-nowrap">
                         <a th:href="@{/ordens/{id}/editar(id=${ordemServico.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
                         <!-- Mudar a situação: formulário POST que envia a nova situação -->
-                        <form th:if="${ordemServico.status.name() == 'ABERTA'}" th:action="@{/ordens/{id}/status(id=${ordemServico.id})}" method="post" class="d-inline">
-                            <input type="hidden" name="status" value="EM_ANDAMENTO">
+                        <form th:if="${ordemServico.status.name() == 'ABERTA'}" th:action="@{/ordens/{id}/status(status='EM_ANDAMENTO', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-play-fill"></i> Iniciar</button>
                         </form>
-                        <form th:if="${ordemServico.status.name() != 'CONCLUIDA'}" th:action="@{/ordens/{id}/status(id=${ordemServico.id})}" method="post" class="d-inline">
-                            <input type="hidden" name="status" value="CONCLUIDA">
+                        <form th:if="${ordemServico.status.name() != 'CONCLUIDA'}" th:action="@{/ordens/{id}/status(status='CONCLUIDA', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check2-circle"></i> Concluir</button>
                         </form>
                         <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->

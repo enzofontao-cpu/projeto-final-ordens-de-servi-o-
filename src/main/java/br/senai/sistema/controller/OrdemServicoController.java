@@ -39,10 +39,12 @@ public class OrdemServicoController {
         this.tecnicoService = tecnicoService;
     }
 
-    /** GET /ordens -> mostra a lista. */
+    /** GET /ordens -> mostra a lista. Com ?status=..., mostra só os registros daquela situação. */
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("ordens", ordemServicoService.listarTodos());
+    public String listar(@RequestParam(required = false) StatusOrdem status, Model model) {
+        model.addAttribute("ordens", ordemServicoService.listar(status));
+        model.addAttribute("situacoes", StatusOrdem.values());   // opções do filtro
+        model.addAttribute("status", status);                  // mantém a opção escolhida no filtro
         return "ordens/lista";
     }
 
