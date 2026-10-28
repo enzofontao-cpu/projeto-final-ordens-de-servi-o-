@@ -1,58 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Início')}"></head>
+<!--
+    PAINEL do sistema (página inicial): os indicadores mais importantes para quem gerencia o negócio.
+    Os dados vêm do InicioController, que chama o PainelService.
+-->
+<head th:replace="~{fragments/layout :: head('Painel')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: menu}"></nav>
 
 <main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Painel</h1>
+        <span class="text-muted small" th:text="'Atualizado em ' + ${#temporals.format(agora, 'dd/MM/yyyy HH:mm')}">Atualizado em</span>
+    </div>
 
-    <!-- Faixa de status: verde se tudo estiver OK, amarela se algo precisar de atenção -->
-    <div class="status-faixa" th:classappend="${tudoOk} ? 'ok' : 'atencao'">
-        <i class="bi" th:classappend="${tudoOk} ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
-        <div>
-            <strong th:text="${tudoOk} ? 'Ambiente OK' : 'Ambiente com pendências'">Ambiente OK</strong>
-            <span th:text="${tudoOk} ? 'Seu projeto está rodando. Você está pronto para começar!' : 'Confira os itens marcados abaixo e consulte o manual (Problemas comuns).'">
-                Seu projeto está rodando.
-            </span>
+    <!-- Cartões de indicadores: th:each repete o cartão para cada indicador da lista -->
+    <div class="row g-3">
+        <div class="col-sm-6 col-lg-3" th:each="ind : ${indicadores}">
+            <div class="card shadow-sm h-100 border-0 border-start border-4" th:classappend="'border-' + ${ind.cor}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="text-muted small" th:text="${ind.titulo}">Indicador</span>
+                        <i class="bi fs-4" th:classappend="${ind.icone} + ' text-' + ${ind.cor}"></i>
+                    </div>
+                    <div class="fs-3 fw-semibold" th:text="${ind.valor}">0</div>
+                    <div class="small text-muted" th:text="${ind.detalhe}">detalhe</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row g-4 mt-1">
-        <div class="col-lg-7">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white fw-semibold">
-                    <i class="bi bi-clipboard2-pulse me-1"></i> Diagnóstico do ambiente
-                </div>
-                <table class="table mb-0 align-middle">
-                    <tbody>
-                    <!-- th:each repete a linha para cada item da lista "itens" -->
-                    <tr th:each="item : ${itens}">
-                        <td class="text-muted" style="width: 42%" th:text="${item.nome}">Item</td>
-                        <td th:text="${item.valor}">Valor</td>
-                        <td class="text-end" style="width: 3rem">
-                            <i th:if="${item.ok}" class="bi bi-check-circle-fill text-success"></i>
-                            <i th:unless="${item.ok}" class="bi bi-x-circle-fill text-danger"></i>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="col-lg-5">
+    <div class="row g-3 mt-1">
+        <!-- Lista de atenção: o que precisa de ação agora -->
+        <div class="col-12">
             <div class="card shadow-sm h-100">
-                <div class="card-header bg-white fw-semibold">
-                    <i class="bi bi-signpost-2 me-1"></i> Próximos passos
+                <div class="card-header bg-white fw-semibold"><i class="bi bi-exclamation-circle me-1"></i> Ordens não concluídas (mais antigas primeiro)</div>
+                <div class="card-body" th:if="${#lists.isEmpty(atencao)}">
+                    <p class="text-muted mb-0">Nenhuma ordem pendente.</p>
                 </div>
-                <div class="card-body">
-                    <ol class="mb-3">
-                        <li>Altere o <code>nome</code> do sistema em <code>application.yml</code>.</li>
-                        <li>Atualize o <code>README.md</code> com o seu nome e a opção escolhida.</li>
-                        <li>Faça o <em>commit</em> e envie (<em>push</em>) para o GitHub.</li>
-                    </ol>
-                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/h2-console}" target="_blank">
-                        <i class="bi bi-database"></i> Abrir console do banco (H2)
-                    </a>
+                <div class="table-responsive" th:unless="${#lists.isEmpty(atencao)}">
+                    <table class="table table-sm mb-0 align-middle">
+                        <thead class="table-light">
+                        <tr>
+                        <th>Abertura</th>
+                        <th>Cliente</th>
+                        <th>Equipamento</th>
+                        <th>Situação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ordem : ${atencao}">
+                        <td th:text="${#temporals.format(ordem.dataAbertura, 'dd/MM/yyyy')}">01/01/2026</td>
+                        <td th:text="${ordem.cliente.nome}">Cliente</td>
+                        <td th:text="${ordem.equipamento}">Equipamento</td>
+                        <td><span class="badge" th:classappend="'text-bg-' + ${ordem.status.cor}" th:text="${ordem.status.descricao}">Aberta</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white">
+                    <a th:href="@{/ordens}" class="small">Ver todas as ordens <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
