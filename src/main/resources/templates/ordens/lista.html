@@ -29,6 +29,7 @@
                     <th>Equipamento</th>
                     <th>Defeito relatado</th>
                     <th class="text-end">Valor</th>
+                    <th>Situação</th>
                     <th class="text-end">Ações</th>
                 </tr>
                 </thead>
@@ -41,8 +42,18 @@
                     <td th:text="${ordemServico.equipamento}">Equipamento</td>
                     <td th:text="${ordemServico.defeitoRelatado}">Defeito relatado</td>
                     <td class="text-end text-nowrap" th:text="${ordemServico.valor != null} ? ${'R$ ' + #numbers.formatDecimal(ordemServico.valor, 1, 'POINT', 2, 'COMMA')} : '-'">R$ 0,00</td>
+                    <td><span class="badge" th:classappend="'text-bg-' + ${ordemServico.status.cor}" th:text="${ordemServico.status.descricao}">Situação</span></td>
                     <td class="text-end text-nowrap">
                         <a th:href="@{/ordens/{id}/editar(id=${ordemServico.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
+                        <!-- Mudar a situação: formulário POST que envia a nova situação -->
+                        <form th:if="${ordemServico.status.name() == 'ABERTA'}" th:action="@{/ordens/{id}/status(id=${ordemServico.id})}" method="post" class="d-inline">
+                            <input type="hidden" name="status" value="EM_ANDAMENTO">
+                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-play-fill"></i> Iniciar</button>
+                        </form>
+                        <form th:if="${ordemServico.status.name() != 'CONCLUIDA'}" th:action="@{/ordens/{id}/status(id=${ordemServico.id})}" method="post" class="d-inline">
+                            <input type="hidden" name="status" value="CONCLUIDA">
+                            <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check2-circle"></i> Concluir</button>
+                        </form>
                         <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
                         <form th:action="@{/ordens/{id}/excluir(id=${ordemServico.id})}" method="post" class="d-inline"
                               onsubmit="return confirm('Confirma a exclusão deste registro?');">
