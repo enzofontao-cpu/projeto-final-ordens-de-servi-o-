@@ -19,4 +19,10 @@ public interface OrdemServicoRepository extends JpaRepository<OrdemServico, Long
 
     // Filtro: registros de uma situação, na ordem indicada
     List<OrdemServico> findByStatus(StatusOrdem status, Sort ordem);
+
+    // Painel: quantas ordens em uma situação
+    long countByStatus(StatusOrdem status);
+
+    // Painel: ordens que ainda não foram concluídas, das mais antigas para as mais novas
+    List<OrdemServico> findByStatusNotOrderByDataAberturaAsc(StatusOrdem status);
 }
