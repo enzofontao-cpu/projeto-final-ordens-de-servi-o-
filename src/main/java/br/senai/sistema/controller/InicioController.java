@@ -51,4 +51,10 @@ public class InicioController {
     public String login() {
         return "login";
     }
+
+    /** Página mostrada quando um usuário autenticado tenta uma ação não autorizada. */
+    @GetMapping("/acesso-negado")
+    public String acessoNegado() {
+        return "error/403";
+    }
 }

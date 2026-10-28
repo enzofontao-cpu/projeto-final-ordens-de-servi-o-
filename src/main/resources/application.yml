@@ -10,8 +10,8 @@ app:
   # TROQUE para o nome do seu projeto (ex.: "Estoque Fácil", "OS Técnica").
   nome: "OS Técnica"
   seguranca:
-    # Segurança (login). Fica desligada até o Encontro 7.
-    ativa: false
+    # Segurança (login): ligada a partir do Encontro 7.
+    ativa: true
 
 server:
   port: 8080

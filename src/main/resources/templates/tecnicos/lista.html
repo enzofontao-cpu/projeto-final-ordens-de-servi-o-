@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/layout :: head('Técnicos')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: menu}"></nav>
@@ -9,7 +10,7 @@
         <h1 class="h4 mb-0">Técnicos
             <span class="badge text-bg-secondary align-middle" th:text="${#lists.size(tecnicos)} + ' registro(s)'">0 registro(s)</span>
         </h1>
-        <a th:href="@{/tecnicos/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo técnico</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/tecnicos/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo técnico</a>
     </div>
 
     <!-- Mensagem de sucesso enviada pelo controller (aparece uma vez, depois de salvar ou excluir) -->
@@ -41,7 +42,7 @@
                     <td class="text-end text-nowrap">
                         <a th:href="@{/tecnicos/{id}/editar(id=${tecnico.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
                         <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
-                        <form th:action="@{/tecnicos/{id}/excluir(id=${tecnico.id})}" method="post" class="d-inline"
+                        <form sec:authorize="hasRole('ADMIN')" th:action="@{/tecnicos/{id}/excluir(id=${tecnico.id})}" method="post" class="d-inline"
                               onsubmit="return confirm('Confirma a exclusão deste registro?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Excluir</button>
                         </form>

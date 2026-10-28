@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/layout :: head('Clientes')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: menu}"></nav>
@@ -9,7 +10,7 @@
         <h1 class="h4 mb-0">Clientes
             <span class="badge text-bg-secondary align-middle" th:text="${#lists.size(clientes)} + ' registro(s)'">0 registro(s)</span>
         </h1>
-        <a th:href="@{/clientes/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo cliente</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/clientes/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo cliente</a>
     </div>
 
     <!-- Mensagem de sucesso enviada pelo controller (aparece uma vez, depois de salvar ou excluir) -->
@@ -31,6 +32,7 @@
                     <th>E-mail</th>
                     <th>Cidade</th>
                     <th>Cliente desde</th>
+                    <th class="text-end">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +43,9 @@
                     <td th:text="${cliente.email}">E-mail</td>
                     <td th:text="${cliente.cidade}">Cidade</td>
                     <td th:text="${#temporals.format(cliente.dataCadastro, 'dd/MM/yyyy')}">01/01/2026</td>
+                    <td class="text-end text-nowrap">
+                        <a th:href="@{/clientes/{id}/editar(id=${cliente.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
