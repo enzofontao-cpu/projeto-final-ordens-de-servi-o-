@@ -8,16 +8,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.senai.sistema.model.OrdemServico;
+import br.senai.sistema.model.StatusOrdem;
 import br.senai.sistema.service.ClienteService;
 import br.senai.sistema.service.OrdemServicoService;
+import br.senai.sistema.service.RegraNegocioException;
 import br.senai.sistema.service.TecnicoService;
 import jakarta.validation.Valid;
 
 /**
  * Controller de OrdemServico: recebe as requisições do navegador para /ordens.
+ * Os erros de regra de negócio (RegraNegocioException) viram o aviso vermelho da tela.
  */
 @Controller
 @RequestMapping("/ordens")
@@ -51,18 +55,24 @@ public class OrdemServicoController {
     }
 
     /**
-     * POST /ordens/salvar -> recebe o formulário (cadastro ou edição).
-     * @Valid confere as regras da entidade; os erros ficam em "resultado".
+     * POST /ordens/salvar -> recebe o formulário.
+     * Primeiro as validações dos campos (@Valid); depois, no service, as regras de negócio.
      */
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("ordemServico") OrdemServico ordemServico, BindingResult resultado,
                          Model model, RedirectAttributes atributos) {
         if (resultado.hasErrors()) {
             carregarListas(model);
-            return "ordens/form";   // volta para o formulário mostrando os erros
+            return "ordens/form";   // volta para o formulário mostrando os erros dos campos
         }
-        ordemServicoService.salvar(ordemServico);
-        atributos.addFlashAttribute("mensagem", "Ordem de serviço salva com sucesso.");
+        try {
+            ordemServicoService.salvar(ordemServico);
+            atributos.addFlashAttribute("mensagem", "Ordem de serviço salva com sucesso.");
+        } catch (RegraNegocioException e) {
+            model.addAttribute("erro", e.getMessage());   // aparece no aviso vermelho, acima do formulário
+            carregarListas(model);
+            return "ordens/form";
+        }
         return "redirect:/ordens";
     }
 
@@ -74,11 +84,27 @@ public class OrdemServicoController {
         return "ordens/form";
     }
 
-    /** POST /ordens/5/excluir -> exclui o registro de id 5. */
+    /** POST /ordens/5/excluir -> exclui o registro de id 5 (se as regras permitirem). */
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, RedirectAttributes atributos) {
-        ordemServicoService.excluir(id);
-        atributos.addFlashAttribute("mensagem", "Ordem de serviço excluída com sucesso.");
+        try {
+            ordemServicoService.excluir(id);
+            atributos.addFlashAttribute("mensagem", "Ordem de serviço excluída com sucesso.");
+        } catch (RegraNegocioException e) {
+            atributos.addFlashAttribute("erro", e.getMessage());
+        }
+        return "redirect:/ordens";
+    }
+
+    /** POST /ordens/5/status?status=... -> muda a situação do registro de id 5. */
+    @PostMapping("/{id}/status")
+    public String mudarStatus(@PathVariable Long id, @RequestParam StatusOrdem status, RedirectAttributes atributos) {
+        try {
+            ordemServicoService.mudarStatus(id, status);
+            atributos.addFlashAttribute("mensagem", "Situação alterada para " + status.getDescricao() + ".");
+        } catch (RegraNegocioException e) {
+            atributos.addFlashAttribute("erro", e.getMessage());
+        }
         return "redirect:/ordens";
     }
 

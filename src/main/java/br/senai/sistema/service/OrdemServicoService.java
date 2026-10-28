@@ -4,19 +4,22 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.senai.sistema.model.OrdemServico;
+import br.senai.sistema.model.StatusOrdem;
 import br.senai.sistema.repository.OrdemServicoRepository;
 
 /**
- * Camada de serviço de OrdemServico: concentra as operações e, mais adiante, as regras de negócio.
+ * Camada de serviço de OrdemServico: concentra as operações e as REGRAS DE NEGÓCIO.
+ * Quando uma regra não é cumprida, o método lança RegraNegocioException com a mensagem para o usuário.
  */
 @Service
 public class OrdemServicoService {
 
     private final OrdemServicoRepository ordemServicoRepository;
 
-    // Injeção de dependência: o Spring entrega o repositório pronto pelo construtor.
+    // Injeção de dependência: o Spring entrega os repositórios prontos pelo construtor.
     public OrdemServicoService(OrdemServicoRepository ordemServicoRepository) {
         this.ordemServicoRepository = ordemServicoRepository;
     }
@@ -32,13 +35,48 @@ public class OrdemServicoService {
                 .orElseThrow(() -> new IllegalArgumentException("Ordem de serviço não encontrada: " + id));
     }
 
-    /** Salva: se o id for vazio, cadastra um novo; se tiver id, atualiza o existente. */
+    /**
+     * Salva. Ordem nova começa ABERTA. Na edição, a situação não muda pelo formulário
+     * e uma ordem CONCLUÍDA não pode ser alterada (regra de negócio 2).
+     */
+    @Transactional
     public OrdemServico salvar(OrdemServico ordemServico) {
+        if (ordemServico.getId() == null) {
+            ordemServico.setStatus(StatusOrdem.ABERTA);
+        } else {
+            OrdemServico atual = buscarPorId(ordemServico.getId());
+            verificarSeConcluida(atual);
+            ordemServico.setStatus(atual.getStatus());
+        }
         return ordemServicoRepository.save(ordemServico);
     }
 
-    /** Exclui pelo id. */
+    /** Muda a situação (Iniciar ou Concluir), conferindo as regras de negócio. */
+    @Transactional
+    public void mudarStatus(Long id, StatusOrdem novoStatus) {
+        OrdemServico ordemServico = buscarPorId(id);
+        verificarSeConcluida(ordemServico);                                    // regra 2
+        if (novoStatus == StatusOrdem.CONCLUIDA) {                          // regra 1
+            boolean semDiagnostico = ordemServico.getDiagnostico() == null || ordemServico.getDiagnostico().isBlank();
+            if (semDiagnostico || ordemServico.getValor() == null) {
+                throw new RegraNegocioException("Para concluir a ordem de serviço, informe o diagnóstico e o valor (use Editar).");
+            }
+        }
+        ordemServico.setStatus(novoStatus);
+        ordemServicoRepository.save(ordemServico);
+    }
+
+    /** Exclui pelo id. Uma ordem concluída não pode ser excluída (regra 2). */
+    @Transactional
     public void excluir(Long id) {
+        verificarSeConcluida(buscarPorId(id));
         ordemServicoRepository.deleteById(id);
+    }
+
+    /** Regra de negócio 2: uma ordem de serviço concluída não pode mais ser alterada. */
+    private void verificarSeConcluida(OrdemServico ordemServico) {
+        if (ordemServico.getStatus() == StatusOrdem.CONCLUIDA) {
+            throw new RegraNegocioException("Ordem de serviço concluída não pode ser alterada nem excluída.");
+        }
     }
 }
