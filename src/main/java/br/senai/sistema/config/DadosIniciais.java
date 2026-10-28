@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import br.senai.sistema.model.Cliente;
 import br.senai.sistema.model.OrdemServico;
 import br.senai.sistema.model.Perfil;
+import br.senai.sistema.model.StatusOrdem;
 import br.senai.sistema.model.Tecnico;
 import br.senai.sistema.model.Usuario;
 import br.senai.sistema.repository.ClienteRepository;
@@ -75,13 +76,13 @@ public class DadosIniciais implements CommandLineRunner {
             List<Cliente> clientes = clienteRepository.findAll(Sort.by("id"));
             List<Tecnico> tecnicos = tecnicoRepository.findAll(Sort.by("id"));
             if (!clientes.isEmpty() && !tecnicos.isEmpty()) {
-                OrdemServico ordemServico1 = new OrdemServico("Notebook Dell Inspiron", "Não liga ao apertar o botão de energia", LocalDate.of(2026, 10, 14),
+                OrdemServico ordemServico1 = new OrdemServico("Notebook Dell Inspiron", "Não liga ao apertar o botão de energia", LocalDate.of(2026, 10, 14), StatusOrdem.ABERTA,
                         clientes.get(0), tecnicos.get(0));
-                OrdemServico ordemServico2 = new OrdemServico("Impressora HP LaserJet", "Papel enroscando na saída", LocalDate.of(2026, 10, 15),
+                OrdemServico ordemServico2 = new OrdemServico("Impressora HP LaserJet", "Papel enroscando na saída", LocalDate.of(2026, 10, 15), StatusOrdem.EM_ANDAMENTO,
                         clientes.get(1 % clientes.size()), tecnicos.get(1 % tecnicos.size()));
                 ordemServico2.setDiagnostico("Rolete de tração gasto");
                 ordemServico2.setValor(new BigDecimal("180.00"));
-                OrdemServico ordemServico3 = new OrdemServico("Celular Samsung Galaxy A54", "Tela trincada", LocalDate.of(2026, 10, 16),
+                OrdemServico ordemServico3 = new OrdemServico("Celular Samsung Galaxy A54", "Tela trincada", LocalDate.of(2026, 10, 16), StatusOrdem.CONCLUIDA,
                         clientes.get(2 % clientes.size()), tecnicos.get(2 % tecnicos.size()));
                 ordemServico3.setDiagnostico("Troca do display");
                 ordemServico3.setValor(new BigDecimal("450.00"));

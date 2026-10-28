@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ordens de serviço')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Ordens de serviço
+            <span class="badge text-bg-secondary align-middle" th:text="${#lists.size(ordens)} + ' registro(s)'">0 registro(s)</span>
+        </h1>
+        <a th:href="@{/ordens/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Nova ordem de serviço</a>
+    </div>
+
+    <!-- Mensagem de sucesso: fragmento reaproveitado do layout -->
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
+
+    <!-- Mensagem quando ainda não há registros -->
+    <div th:if="${#lists.isEmpty(ordens)}" class="alert alert-info">Nenhum registro encontrado.</div>
+
+    <div class="card shadow-sm" th:unless="${#lists.isEmpty(ordens)}">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Abertura</th>
+                    <th>Cliente</th>
+                    <th>Técnico</th>
+                    <th>Equipamento</th>
+                    <th>Defeito relatado</th>
+                    <th class="text-end">Valor</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- th:each repete a linha <tr> para cada item da lista "ordens" -->
+                <tr th:each="ordemServico : ${ordens}">
+                    <td th:text="${#temporals.format(ordemServico.dataAbertura, 'dd/MM/yyyy')}">01/01/2026</td>
+                    <td th:text="${ordemServico.cliente.nome}">Cliente</td>
+                    <td th:text="${ordemServico.tecnico.nome}">Técnico</td>
+                    <td th:text="${ordemServico.equipamento}">Equipamento</td>
+                    <td th:text="${ordemServico.defeitoRelatado}">Defeito relatado</td>
+                    <td class="text-end text-nowrap" th:text="${ordemServico.valor != null} ? ${'R$ ' + #numbers.formatDecimal(ordemServico.valor, 1, 'POINT', 2, 'COMMA')} : '-'">R$ 0,00</td>
+                    <td class="text-end text-nowrap">
+                        <a th:href="@{/ordens/{id}/editar(id=${ordemServico.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
+                        <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
+                        <form th:action="@{/ordens/{id}/excluir(id=${ordemServico.id})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Confirma a exclusão deste registro?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: rodape}"></footer>
+</body>
+</html>
