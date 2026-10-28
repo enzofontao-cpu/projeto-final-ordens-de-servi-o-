@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/layout :: head('Técnicos')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: menu}"></nav>
@@ -10,14 +9,12 @@
         <h1 class="h4 mb-0">Técnicos
             <span class="badge text-bg-secondary align-middle" th:text="${#lists.size(tecnicos)} + ' registro(s)'">0 registro(s)</span>
         </h1>
-        <a sec:authorize="hasRole('ADMIN')" th:href="@{/tecnicos/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Novo técnico</a>
+        <!-- Botões de cadastro, edição e exclusão: só para o perfil ADMIN -->
+        <a th:href="@{/tecnicos/novo}" class="btn btn-app" sec:authorize="hasRole('ADMIN')"><i class="bi bi-plus-lg"></i> Novo técnico</a>
     </div>
 
-    <!-- Mensagem de sucesso enviada pelo controller (aparece uma vez, depois de salvar ou excluir) -->
-    <div th:if="${mensagem}" class="alert alert-success alert-dismissible fade show" role="alert">
-        <span th:text="${mensagem}">Mensagem</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-    </div>
+    <!-- Mensagem de sucesso: fragmento reaproveitado do layout -->
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
 
     <!-- Mensagem quando ainda não há registros -->
     <div th:if="${#lists.isEmpty(tecnicos)}" class="alert alert-info">Nenhum registro encontrado.</div>
@@ -30,7 +27,7 @@
                     <th>Nome</th>
                     <th>Especialidade</th>
                     <th>Telefone</th>
-                    <th class="text-end">Ações</th>
+                    <th class="text-end" sec:authorize="hasRole('ADMIN')">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,10 +36,10 @@
                     <td th:text="${tecnico.nome}">Nome</td>
                     <td th:text="${tecnico.especialidade}">Especialidade</td>
                     <td th:text="${tecnico.telefone}">Telefone</td>
-                    <td class="text-end text-nowrap">
+                    <td class="text-end text-nowrap" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/tecnicos/{id}/editar(id=${tecnico.id})}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</a>
                         <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
-                        <form sec:authorize="hasRole('ADMIN')" th:action="@{/tecnicos/{id}/excluir(id=${tecnico.id})}" method="post" class="d-inline"
+                        <form th:action="@{/tecnicos/{id}/excluir(id=${tecnico.id})}" method="post" class="d-inline"
                               onsubmit="return confirm('Confirma a exclusão deste registro?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Excluir</button>
                         </form>
