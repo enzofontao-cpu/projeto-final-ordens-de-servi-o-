@@ -1,4 +1,4 @@
-# Nome do Sistema
+Descomplica
 
 > Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
 > Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Aluno(a)** | Enzo Renan Fontão |
-| **Turma** | |
+| **Turma** |         |
 | **Opção escolhida** | Ordens de Serviço  |
 | **Versão atual** | 0.1.0 |
 
