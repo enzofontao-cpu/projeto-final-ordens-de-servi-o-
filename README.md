@@ -63,7 +63,6 @@ Empresas que realizam manutenção e assistência técnica precisam controlar os
 | RN03 | Toda ordem de serviço deve possuir uma data de abertura. |
 | RN04 | O valor de uma ordem de serviço não pode ser negativo. |
 | RN05 | Uma ordem de serviço deve possuir uma situação válida: Aberta, Em andamento, Concluída ou Cancelada. |
-
 ---
 
 ## 3. Histórias de usuário
