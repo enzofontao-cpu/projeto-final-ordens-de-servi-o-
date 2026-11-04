@@ -1,9 +1,5 @@
 ORDEX
 
-> Substitua o título acima pelo nome do seu sistema e preencha cada seção deste documento.
-> Este README é o **documento de visão** do projeto (entrega **AVA 1**) e, ao longo do curso,
-> também será o manual técnico de como executar o sistema.
-
 | | |
 |---|---|
 | **Aluno(a)** | Enzo Renan Fontão |
@@ -16,7 +12,7 @@ ORDEX
 ## 1. Visão geral
 
 ### 1.1 Problema
-Empresas que realizam manutenção e assistência técnica precisam controlar os clientes, técnicos e ordens de serviço. Quando essas informações são registradas em papel, planilhas ou conversas no WhatsApp, podem ocorrer dificuldades para acompanhar os serviços, consultar informações e verificar o andamento dos atendimentos. O sistema Descomplica busca centralizar esses dados em uma aplicação web, facilitando o gerenciamento das ordens de serviço e o acompanhamento dos atendimentos.
+Empresas que realizam manutenção e assistência técnica precisam controlar os clientes, técnicos e ordens de serviço. Quando essas informações são registradas em papel, planilhas ou conversas no WhatsApp, podem ocorrer dificuldades para acompanhar os serviços, consultar informações e verificar o andamento dos atendimentos. O sistema ORDEX busca centralizar esses dados em uma aplicação web, facilitando o gerenciamento das ordens de serviço e o acompanhamento dos atendimentos.
 
 ### 1.2 Canvas do projeto
 
@@ -155,7 +151,9 @@ Abra o projeto na IDE e execute a classe `SistemaApplication`. Acesse `http://lo
 Java 21 · Spring Boot 4 · Spring MVC · Thymeleaf · Bootstrap 5 · Spring Data JPA · H2 (desenvolvimento) · MySQL (produção) · Spring Security · Git/GitHub
 
 ## 7. Uso de inteligência artificial
-<Usei Inteligência Artificial para consertar certos bugs dos funcionamentos do site, exemplo são funcionar cadastro dos usúario de teste>
+A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvimento do projeto, auxiliando na organização dos requisitos funcionais e não funcionais, na definição das histórias de usuário, na elaboração das regras de negócio e na documentação do sistema.
+
+As sugestões geradas foram analisadas e adaptadas conforme as necessidades do projeto. A implementação, os testes e a validação das funcionalidades são realizados pelo aluno.
 
 ## 8. Histórico de versões
 | Versão | Data | Descrição |

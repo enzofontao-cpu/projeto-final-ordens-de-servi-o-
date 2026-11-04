@@ -8,7 +8,7 @@
 app:
   # Nome do seu sistema: aparece no menu e no título das páginas.
   # TROQUE para o nome do seu projeto (ex.: "Estoque Fácil", "OS Técnica").
-  nome: "OS Técnica"
+  nome: "ORDEX"
   seguranca:
     # Segurança (login): ligada a partir do Encontro 7.
     ativa: true
@@ -53,4 +53,3 @@ spring:
   # Sem cache: alterações nas páginas aparecem ao recarregar o navegador.
   thymeleaf:
     cache: false
-
