@@ -7,7 +7,7 @@ ORDEX
 | | |
 |---|---|
 | **Aluno(a)** | Enzo Renan Fontão |
-| **Turma** |   TEC-N-01788/2026      |
+| **Turma** |    TEC-N-001788/2026     |
 | **Opção escolhida** | Ordens de Serviço  |
 | **Versão atual** | 0.1.0 |
 
