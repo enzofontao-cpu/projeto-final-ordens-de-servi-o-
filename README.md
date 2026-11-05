@@ -151,9 +151,7 @@ Abra o projeto na IDE e execute a classe `SistemaApplication`. Acesse `http://lo
 Java 21 · Spring Boot 4 · Spring MVC · Thymeleaf · Bootstrap 5 · Spring Data JPA · H2 (desenvolvimento) · MySQL (produção) · Spring Security · Git/GitHub
 
 ## 7. Uso de inteligência artificial
-A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvimento do projeto, auxiliando na organização dos requisitos funcionais e não funcionais, na definição das histórias de usuário, na elaboração das regras de negócio e na documentação do sistema.
-
-As sugestões geradas foram analisadas e adaptadas conforme as necessidades do projeto. A implementação, os testes e a validação das funcionalidades são realizados pelo aluno.
+A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvimento do projeto,como correção de bugs como nos logins dos usuários de teste, correção de pequenos mals funcionamentos
 
 ## 8. Histórico de versões
 | Versão | Data | Descrição |
