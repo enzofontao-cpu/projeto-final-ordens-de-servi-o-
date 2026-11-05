@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -39,6 +40,7 @@ public class Cliente {
     /** Telefone para contato. */
     @NotBlank(message = "Campo obrigatório.")
     @Size(max = 20, message = "Use no máximo 20 caracteres.")
+    @Pattern(regexp = "\\(\\d{2}\\) \\d{4,5}-\\d{4}", message = "Use o formato (43) 99999-9999.")
     @Column(nullable = false, length = 20)
     private String telefone;
 
@@ -59,6 +61,11 @@ public class Cliente {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(nullable = false)
     private LocalDate dataCadastro;
+
+    /** Bairro do cliente. */
+    @Size(max = 60, message = "Use no máximo 60 caracteres.")
+    @Column(length = 60)
+    private String bairro;
 
     /** Construtor vazio: obrigatório para o JPA e para o formulário criarem objetos. */
     public Cliente() {
@@ -121,5 +128,13 @@ public class Cliente {
 
     public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 }
