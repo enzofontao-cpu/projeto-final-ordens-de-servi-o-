@@ -2,6 +2,8 @@ package br.senai.sistema.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -168,5 +170,13 @@ public class OrdemServico {
 
     public void setTecnico(Tecnico tecnico) {
         this.tecnico = tecnico;
+    }
+
+    /** Valor calculado (não é gravado no banco): dias desde a abertura da ordem até hoje. */
+    public long getDiasDesdeAbertura() {
+        if (dataAbertura == null) {
+            return 0;
+        }
+        return ChronoUnit.DAYS.between(dataAbertura, LocalDate.now(ZoneId.of("America/Sao_Paulo")));
     }
 }
