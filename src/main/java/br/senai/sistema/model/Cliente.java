@@ -67,6 +67,10 @@ public class Cliente {
     @Column(length = 60)
     private String bairro;
 
+    /** Registro ativo? Um registro inativo continua no banco (e no histórico), mas não aparece para novas operações. */
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean ativo = true;
+
     /** Construtor vazio: obrigatório para o JPA e para o formulário criarem objetos. */
     public Cliente() {
     }
@@ -136,5 +140,13 @@ public class Cliente {
 
     public void setBairro(String bairro) {
         this.bairro = bairro;
+    }
+
+    public boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

@@ -41,4 +41,11 @@ public class ClienteService {
     public void excluir(Long id) {
         clienteRepository.deleteById(id);
     }
+
+    /** Inativa um registro ativo ou reativa um inativo. O registro continua no banco. */
+    public void alternarAtivo(Long id) {
+        Cliente cliente = buscarPorId(id);
+        cliente.setAtivo(!cliente.getAtivo());
+        clienteRepository.save(cliente);
+    }
 }

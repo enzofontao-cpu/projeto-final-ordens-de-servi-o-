@@ -79,4 +79,12 @@ public class ClienteController {
         }
         return "redirect:/clientes";
     }
+
+    /** POST /clientes/5/ativo -> inativa (ou reativa) o registro de id 5. */
+    @PostMapping("/{id}/ativo")
+    public String alternarAtivo(@PathVariable Long id, RedirectAttributes atributos) {
+        clienteService.alternarAtivo(id);
+        atributos.addFlashAttribute("mensagem", "Situação do cliente atualizada.");
+        return "redirect:/clientes";
+    }
 }
