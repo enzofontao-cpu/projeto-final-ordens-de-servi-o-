@@ -16,8 +16,16 @@ public class AtributosGlobais {
     @Value("${app.nome:Meu Sistema}")
     private String nomeDoSistema;
 
+    @Value("${app.empresa:}")
+    private String nomeDaEmpresa;
+
     @ModelAttribute("appNome")
     public String appNome() {
         return nomeDoSistema;
+    }
+
+    @ModelAttribute("appEmpresa")
+    public String appEmpresa() {
+        return nomeDaEmpresa;
     }
 }
