@@ -15,8 +15,10 @@ app:
 
 server:
   port: 8080
-  forward-headers-strategy: framework 
-
+  # Codespaces: o sistema é acessado por um endereço público (...app.github.dev).
+  # Esta linha faz os redirecionamentos (login, logout, salvar) usarem esse endereço
+  # em vez de "localhost".
+  forward-headers-strategy: framework
 
 spring:
   application:
