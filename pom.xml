@@ -46,6 +46,18 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- Recursos visuais servidos localmente para não depender de CDN no navegador -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootstrap-icons</artifactId>
+            <version>1.11.3</version>
+        </dependency>
+
         <!-- Spring Data JPA + Hibernate: grava e lê objetos Java no banco de dados -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -125,6 +125,26 @@ classDiagram
 ## 5. Como executar
 
 ### No GitHub Codespaces (recomendado)
+1. No repositório, clique em **Code → Codespaces** e abra o Codespace existente (ou **Create codespace on main**).
+2. No terminal, execute:
+   ```bash
+   mvn spring-boot:run
+   ```
+3. Aguarde a mensagem `Started SistemaApplication` no terminal.
+4. Abra a aba **Portas** (ao lado do Terminal) e, na linha da porta **8080**, clique no ícone de globo (**Abrir no navegador**).
+5. Entre com um dos usuários da seção **Usuários de teste**.
+
+### No computador (ferramentas instaladas)
+Requisitos: JDK 21 e Maven (ou uma IDE com suporte a Java, como IntelliJ IDEA ou VS Code com o *Extension Pack for Java*).
+Na pasta do projeto, execute `mvn spring-boot:run` e acesse `http://localhost:8080`.
+
+### Banco de dados de desenvolvimento
+- O banco H2 fica na pasta `dados/` (não vai para o GitHub). Na primeira execução, o sistema cria as tabelas e os dados de exemplo.
+- Para recomeçar com os dados de exemplo: pare o sistema e apague a pasta (`rm -rf dados`).
+- Console do banco: endereço `/h2-console` (só para o perfil ADMIN).
+
+
+### No GitHub Codespaces (recomendado)
 1. No repositório, clique em **Code → Codespaces → Create codespace on main** (ou abra o Codespace existente).
 2. Aguarde a preparação do ambiente.
 3. No terminal, execute:
@@ -164,3 +184,44 @@ A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvim
 |---|---|---|---|
 | admin | admin123 | Administrador | Tudo |
 | operador | operador123 | Operador | Consulta clientes e técnicos, abre ordens de serviço e muda a situação delas |
+
+## 9. Funcionalidades e telas
+
+### Funcionalidades
+- Cadastro de clientes e técnicos.
+- Abertura e acompanhamento das ordens de serviço.
+- Situação de cada ordem: aberta, em andamento ou concluída.
+- Painel com os indicadores do atendimento.
+- Login com dois perfis: o Administrador pode tudo; o Operador consulta clientes e técnicos, abre ordens de serviço e muda a situação delas.
+
+### Telas
+
+**Painel com os indicadores do atendimento**
+
+![Painel com os indicadores do atendimento](docs/painel.png)
+
+**Ordens de serviço e suas situações**
+
+![Ordens de serviço e suas situações](docs/ordens.png)
+
+**Regra de negócio: concluir sem diagnóstico e valor**
+
+![Regra de negócio: concluir sem diagnóstico e valor](docs/regra.png)
+
+**Tela de login**
+
+![Tela de login](docs/login.png)
+
+## 10. Checklist do nível essencial
+
+- [x] O sistema sobe sem erros seguindo a seção 5 (Como executar)
+- [x] Cadastro completo de clientes (cadastrar, listar, editar e excluir), com validação
+- [x] Cadastro completo de técnicos, com validação
+- [x] Ordens de serviço ligadas a clientes e técnicos, com lista de escolha no formulário
+- [x] Regra de negócio 1: Não concluir uma ordem de serviço sem diagnóstico e valor.
+- [x] Regra de negócio 2: Não alterar nem excluir uma ordem de serviço concluída.
+- [x] Login com 2 perfis (admin e operador), senhas criptografadas e acesso conforme o perfil
+- [x] Painel com os indicadores na página inicial
+- [x] Repositório no GitHub com commits frequentes
+- [x] README com a visão do projeto, como executar, usuários de teste, funcionalidades e telas
+- [x] Quadro Kanban atualizado

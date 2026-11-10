@@ -8,27 +8,23 @@
 <body>
 <nav th:replace="~{fragments/layout :: menu}"></nav>
 
-<main class="container py-4 dashboard">
-    <div class="page-heading">
-        <div>
-            <p class="page-kicker"><i class="bi bi-activity"></i> OPERAÇÃO</p>
-            <h1>Visão geral</h1>
-            <p class="page-description">Ordens, prazos e resultado da assistência técnica.</p>
-        </div>
-        <span class="page-meta"><i class="bi bi-clock-history"></i><span th:text="'Atualizado em ' + ${#temporals.format(agora, 'dd/MM/yyyy HH:mm')}">Atualizado em</span></span>
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Painel</h1>
+        <span class="text-muted small" th:text="'Atualizado em ' + ${#temporals.format(agora, 'dd/MM/yyyy HH:mm')}">Atualizado em</span>
     </div>
 
     <!-- Cartões de indicadores: th:each repete o cartão para cada indicador da lista -->
     <div class="row g-3">
         <div class="col-sm-6 col-lg-3" th:each="ind : ${indicadores}">
-            <div class="card metric-card shadow-sm h-100">
+            <div class="card shadow-sm h-100 border-0 border-start border-4" th:classappend="'border-' + ${ind.cor}">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
-                        <span class="metric-label" th:text="${ind.titulo}">Indicador</span>
-                        <span class="metric-icon" th:classappend="' metric-icon-' + ${ind.cor}"><i class="bi" th:classappend="${ind.icone}"></i></span>
+                        <span class="text-muted small" th:text="${ind.titulo}">Indicador</span>
+                        <i class="bi fs-4" th:classappend="${ind.icone} + ' text-' + ${ind.cor}"></i>
                     </div>
-                    <div class="metric-value" th:text="${ind.valor}">0</div>
-                    <div class="metric-detail" th:text="${ind.detalhe}">detalhe</div>
+                    <div class="fs-3 fw-semibold" th:text="${ind.valor}">0</div>
+                    <div class="small text-muted" th:text="${ind.detalhe}">detalhe</div>
                 </div>
             </div>
         </div>
@@ -38,12 +34,9 @@
         <!-- Lista de atenção: o que precisa de ação agora -->
         <div class="col-12">
             <div class="card shadow-sm h-100">
-                <div class="card-header bg-white d-flex justify-content-between align-items-center gap-3">
-                    <h2 class="section-title"><i class="bi bi-exclamation-circle me-1"></i> Ordens em aberto</h2>
-                    <span class="text-muted small">Mais antigas primeiro</span>
-                </div>
+                <div class="card-header bg-white fw-semibold"><i class="bi bi-exclamation-circle me-1"></i> Ordens não concluídas (mais antigas primeiro)</div>
                 <div class="card-body" th:if="${#lists.isEmpty(atencao)}">
-                    <p class="text-muted mb-0"><i class="bi bi-check-circle me-1 text-success"></i> Nenhuma ordem pendente.</p>
+                    <p class="text-muted mb-0">Nenhuma ordem pendente.</p>
                 </div>
                 <div class="table-responsive" th:unless="${#lists.isEmpty(atencao)}">
                     <table class="table table-sm mb-0 align-middle">

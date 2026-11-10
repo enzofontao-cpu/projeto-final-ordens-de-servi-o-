@@ -32,7 +32,7 @@ public class SecurityConfig {
         if (ativa) {
             http.authorizeHttpRequests(auth -> auth
                     // Arquivos públicos e páginas que não exigem login
-                    .requestMatchers("/css/**", "/js/**", "/img/**", "/login", "/diagnostico").permitAll()
+                    .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**", "/login", "/diagnostico").permitAll()
                     // Console do banco: só o ADMIN
                     .requestMatchers(PathRequest.toH2Console()).hasRole("ADMIN")
                     // Clientes: todo perfil autenticado pode consultar a lista

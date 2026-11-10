@@ -31,14 +31,14 @@ public class InicioController {
     }
 
     /**
-     * Página inicial: o PAINEL do sistema, com os indicadores do negócio.
-     * (O diagnóstico do ambiente continua disponível em /diagnostico.)
+    * Página inicial: o PAINEL do sistema, com os indicadores do negócio.
+    * (O diagnóstico do ambiente continua disponível em /diagnostico.)
      */
     @GetMapping("/")
     public String inicio(Model model) {
-        model.addAttribute("indicadores", painelService.indicadores());
-        model.addAttribute("atencao", painelService.atencao());
-        model.addAttribute("agora", LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+                model.addAttribute("indicadores", painelService.indicadores());
+                model.addAttribute("atencao", painelService.atencao());
+                model.addAttribute("agora", LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         return "index";
     }
 
@@ -56,4 +56,5 @@ public class InicioController {
     public String login() {
         return "login";
     }
+
 }
