@@ -207,7 +207,7 @@ A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvim
 
 **Regra de negócio: concluir sem diagnóstico e valor**
 
-![Regra de negócio: concluir sem diagnóstico e valor](docs/regra.png)
+![Regra de negócio: concluir sem diagnóstico e valor](docs/regras.png)
 
 **Tela de login**
 

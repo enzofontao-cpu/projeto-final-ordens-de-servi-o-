@@ -57,4 +57,10 @@ public class InicioController {
         return "login";
     }
 
+    /** Página apresentada quando o perfil não tem permissão para uma ação. */
+    @GetMapping("/acesso-negado")
+    public String acessoNegado() {
+        return "erro/403";
+    }
+
 }
