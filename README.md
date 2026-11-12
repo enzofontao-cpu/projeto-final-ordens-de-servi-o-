@@ -5,7 +5,7 @@ ORDEX
 | **Aluno(a)** | Enzo Renan Fontão |
 | **Turma** |    TEC-N-001788/2026     |
 | **Opção escolhida** | Ordens de Serviço  |
-| **Versão atual** | 0.1.0 |
+| **Versão atual** | 1.0.0 |
 
 ---
 
@@ -177,6 +177,7 @@ A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvim
 | Versão | Data | Descrição |
 |---|---|---|
 | 0.1.0 | | Projeto inicial criado a partir do repositório modelo |
+| 1.0.0 | 11/11/2026 | Primeira versão estável |
 
 ## Usuários de teste
 
