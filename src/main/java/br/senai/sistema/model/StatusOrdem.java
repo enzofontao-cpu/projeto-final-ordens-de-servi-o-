@@ -9,7 +9,8 @@ public enum StatusOrdem {
 
     ABERTA("Aberta", "secondary"),
     EM_ANDAMENTO("Em andamento", "warning"),
-    CONCLUIDA("Concluída", "success");
+    CONCLUIDA("Concluída", "success"),
+    CANCELADA("Cancelada", "danger");
 
     private final String descricao;   // texto mostrado na tela
     private final String cor;         // cor do selo: success, warning, secondary...

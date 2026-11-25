@@ -53,17 +53,17 @@ public class OrdemServicoService {
             ordemServico.setStatus(StatusOrdem.ABERTA);
         } else {
             OrdemServico atual = buscarPorId(ordemServico.getId());
-            verificarSeConcluida(atual);
+            verificarStatusFinal(atual);
             ordemServico.setStatus(atual.getStatus());
         }
         return ordemServicoRepository.save(ordemServico);
     }
 
-    /** Muda a situação (Iniciar ou Concluir), conferindo as regras de negócio. */
+    /** Muda a situação (Iniciar, Concluir ou Cancelar), conferindo as regras de negócio. */
     @Transactional
     public void mudarStatus(Long id, StatusOrdem novoStatus) {
         OrdemServico ordemServico = buscarPorId(id);
-        verificarSeConcluida(ordemServico);                                    // regra 2
+        verificarStatusFinal(ordemServico);                                    // regra 2
         if (novoStatus == StatusOrdem.CONCLUIDA) {                          // regra 1
             boolean semDiagnostico = ordemServico.getDiagnostico() == null || ordemServico.getDiagnostico().isBlank();
             if (semDiagnostico || ordemServico.getValor() == null) {
@@ -74,17 +74,17 @@ public class OrdemServicoService {
         ordemServicoRepository.save(ordemServico);
     }
 
-    /** Exclui pelo id. Uma ordem concluída não pode ser excluída (regra 2). */
+    /** Exclui pelo id. Uma ordem concluída ou cancelada não pode ser excluída (regra 2). */
     @Transactional
     public void excluir(Long id) {
-        verificarSeConcluida(buscarPorId(id));
+        verificarStatusFinal(buscarPorId(id));
         ordemServicoRepository.deleteById(id);
     }
 
-    /** Regra de negócio 2: uma ordem de serviço concluída não pode mais ser alterada. */
-    private void verificarSeConcluida(OrdemServico ordemServico) {
-        if (ordemServico.getStatus() == StatusOrdem.CONCLUIDA) {
-            throw new RegraNegocioException("Ordem de serviço concluída não pode ser alterada nem excluída.");
+    /** Regra de negócio 2: uma ordem finalizada não pode mais ser alterada. */
+    private void verificarStatusFinal(OrdemServico ordemServico) {
+        if (ordemServico.getStatus() == StatusOrdem.CONCLUIDA || ordemServico.getStatus() == StatusOrdem.CANCELADA) {
+            throw new RegraNegocioException("Ordem de serviço concluída ou cancelada não pode ser alterada nem excluída.");
         }
     }
 }

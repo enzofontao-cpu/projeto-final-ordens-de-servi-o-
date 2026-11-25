@@ -59,7 +59,10 @@
                         <form th:if="${ordemServico.status.name() == 'ABERTA'}" th:action="@{/ordens/{id}/status(status='EM_ANDAMENTO', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-play-fill"></i> Iniciar</button>
                         </form>
-                        <form th:if="${ordemServico.status.name() != 'CONCLUIDA'}" th:action="@{/ordens/{id}/status(status='CONCLUIDA', id=${ordemServico.id})}" method="post" class="d-inline">
+                        <form th:if="${ordemServico.status.name() == 'EM_ANDAMENTO'}" th:action="@{/ordens/{id}/status(status='CANCELADA', id=${ordemServico.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i> Cancelar</button>
+                        </form>
+                        <form th:if="${ordemServico.status.name() != 'CONCLUIDA' and ordemServico.status.name() != 'CANCELADA'}" th:action="@{/ordens/{id}/status(status='CONCLUIDA', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check2-circle"></i> Concluir</button>
                         </form>
                         <!-- Excluir usa um formulário POST; o confirm() pede confirmação antes de enviar -->
