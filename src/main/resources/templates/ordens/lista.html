@@ -9,21 +9,30 @@
         <h1 class="h4 mb-0">Ordens de serviço
             <span class="badge text-bg-secondary align-middle" th:text="${#lists.size(ordens)} + ' registro(s)'">0 registro(s)</span>
         </h1>
-        <a th:href="@{/ordens/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Nova ordem de serviço</a>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#filtrosOrdens" aria-controls="filtrosOrdens"
+                    th:attr="aria-expanded=${status != null}">
+                <i class="bi bi-funnel"></i> Filtros
+            </button>
+            <a th:href="@{/ordens/novo}" class="btn btn-app"><i class="bi bi-plus-lg"></i> Nova ordem de serviço</a>
+        </div>
     </div>
 
     <!-- Mensagem de sucesso: fragmento reaproveitado do layout -->
     <div th:replace="~{fragments/layout :: mensagens}"></div>
 
-    <!-- Filtro: envia a escolha como ?status=... para o próprio endereço da lista -->
-    <form th:action="@{/ordens}" method="get" class="d-flex gap-2 mb-3">
-        <select name="status" class="form-select w-auto">
-            <option value="">Todas as situações</option>
-            <option th:each="item : ${situacoes}" th:value="${item}" th:text="${item.descricao}"
-                    th:selected="${item == status}">Situação</option>
-        </select>
-        <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-funnel"></i> Filtrar</button>
-    </form>
+    <div id="filtrosOrdens" class="collapse mb-3" th:classappend="${status != null} ? ' show'">
+        <nav class="card card-body shadow-sm flex-row flex-wrap gap-2" aria-label="Filtrar ordens por situação">
+            <a th:href="@{/ordens}" class="btn btn-sm"
+               th:classappend="${status == null} ? ' btn-primary active' : ' btn-outline-secondary'"
+               th:attr="aria-current=${status == null} ? 'page' : null">Todas</a>
+            <a th:each="item : ${situacoes}" th:href="@{/ordens(status=${item})}" class="btn btn-sm"
+               th:classappend="${item == status} ? ' btn-primary active' : ' btn-outline-secondary'"
+               th:attr="aria-current=${item == status} ? 'page' : null"
+               th:text="${item.descricao}">Situação</a>
+        </nav>
+    </div>
 
     <!-- Mensagem quando ainda não há registros -->
     <div th:if="${#lists.isEmpty(ordens)}" class="alert alert-info">Nenhum registro encontrado.</div>
@@ -58,9 +67,6 @@
                         <!-- Mudar a situação: formulário POST que envia a nova situação -->
                         <form th:if="${ordemServico.status.name() == 'ABERTA'}" th:action="@{/ordens/{id}/status(status='EM_ANDAMENTO', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-play-fill"></i> Iniciar</button>
-                        </form>
-                        <form th:if="${ordemServico.status.name() == 'EM_ANDAMENTO'}" th:action="@{/ordens/{id}/status(status='CANCELADA', id=${ordemServico.id})}" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i> Cancelar</button>
                         </form>
                         <form th:if="${ordemServico.status.name() != 'CONCLUIDA' and ordemServico.status.name() != 'CANCELADA'}" th:action="@{/ordens/{id}/status(status='CONCLUIDA', id=${ordemServico.id})}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check2-circle"></i> Concluir</button>

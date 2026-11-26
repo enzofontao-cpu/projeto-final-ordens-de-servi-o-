@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pesquisa')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container py-4">
+    <h1 class="h4 mb-3"><i class="bi bi-search"></i> Pesquisa</h1>
+
+    <form th:action="@{/pesquisa}" method="get" class="input-group mb-4">
+        <input class="form-control" type="search" name="q" th:value="${q}"
+               placeholder="Pesquise ordens, técnicos ou clientes" aria-label="Termo de pesquisa" required>
+        <button class="btn btn-app" type="submit"><i class="bi bi-search"></i> Pesquisar</button>
+    </form>
+
+    <div th:if="${q.isEmpty()}" class="alert alert-info">
+        Digite um termo para pesquisar ordens de serviço, técnicos e clientes.
+    </div>
+
+    <th:block th:unless="${q.isEmpty()}">
+        <p class="text-muted">Resultados para: <strong th:text="${q}">termo</strong></p>
+
+        <div th:if="${#lists.isEmpty(ordens) and #lists.isEmpty(tecnicos) and #lists.isEmpty(clientes)}"
+             class="alert alert-info">Nenhum registro encontrado.</div>
+
+        <section th:if="${not #lists.isEmpty(ordens)}" class="mb-4">
+            <h2 class="h5">Ordens de serviço <span class="badge text-bg-secondary" th:text="${#lists.size(ordens)}">0</span></h2>
+            <div class="card shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                        <tr><th>OS</th><th>Abertura</th><th>Cliente</th><th>Técnico</th><th>Equipamento</th><th>Situação</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ordem : ${ordens}">
+                            <td th:text="${'#' + ordem.id}">#1</td>
+                            <td th:text="${#temporals.format(ordem.dataAbertura, 'dd/MM/yyyy')}">01/01/2026</td>
+                            <td th:text="${ordem.cliente.nome}">Cliente</td>
+                            <td th:text="${ordem.tecnico.nome}">Técnico</td>
+                            <td th:text="${ordem.equipamento}">Equipamento</td>
+                            <td th:text="${ordem.status.descricao}">Aberta</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section th:if="${not #lists.isEmpty(clientes)}" class="mb-4">
+            <h2 class="h5">Clientes <span class="badge text-bg-secondary" th:text="${#lists.size(clientes)}">0</span></h2>
+            <div class="card shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                        <tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Cidade</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cliente : ${clientes}">
+                            <td th:text="${cliente.nome}">Nome</td>
+                            <td th:text="${cliente.telefone}">Telefone</td>
+                            <td th:text="${cliente.email}">E-mail</td>
+                            <td th:text="${cliente.cidade}">Cidade</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section th:if="${not #lists.isEmpty(tecnicos)}" class="mb-4">
+            <h2 class="h5">Técnicos <span class="badge text-bg-secondary" th:text="${#lists.size(tecnicos)}">0</span></h2>
+            <div class="card shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                        <tr><th>Nome</th><th>Especialidade</th><th>Telefone</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tecnico : ${tecnicos}">
+                            <td th:text="${tecnico.nome}">Nome</td>
+                            <td th:text="${tecnico.especialidade}">Especialidade</td>
+                            <td th:text="${tecnico.telefone}">Telefone</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </th:block>
+</main>
+
+<footer th:replace="~{fragments/layout :: rodape}"></footer>
+</body>
+</html>

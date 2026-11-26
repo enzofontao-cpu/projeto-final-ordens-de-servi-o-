@@ -1,5 +1,7 @@
 package br.senai.sistema.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,7 +45,7 @@ public class OrdemServicoController {
     @GetMapping
     public String listar(@RequestParam(required = false) StatusOrdem status, Model model) {
         model.addAttribute("ordens", ordemServicoService.listar(status));
-        model.addAttribute("situacoes", StatusOrdem.values());   // opções do filtro
+        model.addAttribute("situacoes", List.of(StatusOrdem.ABERTA, StatusOrdem.EM_ANDAMENTO, StatusOrdem.CONCLUIDA));
         model.addAttribute("status", status);                  // mantém a opção escolhida no filtro
         return "ordens/lista";
     }

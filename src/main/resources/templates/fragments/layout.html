@@ -38,6 +38,14 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/tecnicos}">Técnicos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/ordens}">Ordens de serviço</a></li>
             </ul>
+            <form th:action="@{/pesquisa}" method="get" class="d-flex gap-1 my-2 my-lg-0 me-lg-3"
+                  role="search" sec:authorize="isAuthenticated()">
+                <input class="form-control form-control-sm" type="search" name="q"
+                       placeholder="Pesquisar..." aria-label="Pesquisar ordens, técnicos e clientes" required>
+                <button class="btn btn-sm btn-outline-light text-nowrap" type="submit">
+                    <i class="bi bi-search"></i> Pesquisar
+                </button>
+            </form>
             <!-- Aparece somente quando a segurança estiver ligada e houver alguém logado -->
             <div class="d-flex align-items-center gap-3" sec:authorize="isAuthenticated()">
                 <span class="text-white-50 small">
