@@ -2,7 +2,7 @@
 name: 'barra de pesquisa '
 about: Pesquisar clientes, técnicos e ordens de serviço
 title: ''
-labels: Adaptativa, prioridade:baixa, prioridade:média
+labels: Adaptativa, prioridade:média
 assignees: enzofontao-cpu
 type: Feature
 

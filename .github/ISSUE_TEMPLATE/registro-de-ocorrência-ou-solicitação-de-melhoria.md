@@ -4,8 +4,8 @@ about: " Registro de possíveis defeitos e sugestões de melhorias no sistema, c
   objetivo de garantir seu bom funcionamento, segurança e melhor experiência para
   os usuários."
 title: ''
-labels: ''
-assignees: ''
+labels: 'Preventiva, prioridade: alta'
+assignees: enzofontao-cpu
 
 ---
 
@@ -25,4 +25,4 @@ O que aconteceu: Foi identificada a necessidade de registrar uma ocorrência ou 
 
 O que era esperado: Que o sistema funcionasse corretamente, oferecendo uma experiência segura, intuitiva e eficiente ao usuário.
 
-Evidência: Captura de tela da ocorrência ou da funcionalidade que necessita de melhoria.
+Evidência: file:///C:/Users/Aluno/Downloads/ocorr%C3%AAncia.png
