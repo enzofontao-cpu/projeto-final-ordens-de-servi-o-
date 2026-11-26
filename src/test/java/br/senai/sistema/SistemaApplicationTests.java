@@ -1,7 +1,9 @@
 package br.senai.sistema;
 
 import br.senai.sistema.model.StatusOrdem;
+import br.senai.sistema.repository.OcorrenciaRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -11,9 +13,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
@@ -29,6 +34,14 @@ class SistemaApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private OcorrenciaRepository ocorrenciaRepository;
+
+    @BeforeEach
+    void limparOcorrencias() {
+        ocorrenciaRepository.deleteAll();
+    }
 
     @Test
     void aplicacaoInicia() {
@@ -98,5 +111,44 @@ class SistemaApplicationTests {
         mockMvc.perform(get("/ordens"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(not(containsString("> Cancelar</button>"))));
+    }
+
+    @Test
+    @WithMockUser(username = "operador-teste", roles = "OPERADOR")
+    void operadorPodeRegistrarOcorrenciaERegistroFicaDisponivelNaListaCompartilhada() throws Exception {
+        mockMvc.perform(post("/ocorrencias/salvar")
+                        .with(csrf())
+                        .param("tipo", "DEFEITO")
+                        .param("local", "Tela inicial")
+                        .param("passos", "Acessar o painel")
+                        .param("ocorrido", "O painel não carrega")
+                        .param("esperado", "O painel deve ser exibido"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/ocorrencias"));
+
+        assertThat(ocorrenciaRepository.findAll()).singleElement().satisfies(ocorrencia -> {
+            assertThat(ocorrencia.getUsuario()).isEqualTo("operador-teste");
+            assertThat(ocorrencia.getTipo().name()).isEqualTo("DEFEITO");
+            assertThat(ocorrencia.getDataRegistro()).isNotNull();
+        });
+
+        mockMvc.perform(get("/ocorrencias"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("ocorrencias/lista"))
+                .andExpect(content().string(containsString("O painel não carrega")))
+                .andExpect(content().string(containsString("operador-teste")));
+    }
+
+    @Test
+    @WithMockUser(roles = "OPERADOR")
+    void formularioDeOcorrenciaEValidadoAntesDeSalvar() throws Exception {
+        mockMvc.perform(post("/ocorrencias/salvar")
+                        .with(csrf())
+                        .param("tipo", "DEFEITO"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("ocorrencias/form"))
+                .andExpect(content().string(containsString("Descreva os passos para reproduzir.")));
+
+        assertThat(ocorrenciaRepository.count()).isZero();
     }
 }

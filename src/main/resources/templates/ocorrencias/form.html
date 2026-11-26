@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registrar ocorrência ou sugestão')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container py-4">
+    <h1 class="h4 mb-3">Registrar ocorrência ou sugestão de melhoria</h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="alert alert-danger" th:if="${erro}" th:text="${erro}" role="alert"></div>
+            <form th:action="@{/ocorrencias/salvar}" th:object="${ocorrencia}" method="post" novalidate>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="tipo">Tipo *</label>
+                        <select id="tipo" class="form-select" th:field="*{tipo}" th:errorclass="is-invalid">
+                            <option value="">Selecione...</option>
+                            <option th:each="item : ${tipos}" th:value="${item}" th:text="${item.descricao}">Tipo</option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}">Erro</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="local">Onde *</label>
+                        <input id="local" type="text" class="form-control" th:field="*{local}" th:errorclass="is-invalid">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('local')}" th:errors="*{local}">Erro</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="passos">Passos para reproduzir *</label>
+                        <textarea id="passos" class="form-control" rows="3" th:field="*{passos}" th:errorclass="is-invalid"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('passos')}" th:errors="*{passos}">Erro</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="ocorrido">O que aconteceu? *</label>
+                        <textarea id="ocorrido" class="form-control" rows="3" th:field="*{ocorrido}" th:errorclass="is-invalid"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('ocorrido')}" th:errors="*{ocorrido}">Erro</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="esperado">O que era esperado? *</label>
+                        <textarea id="esperado" class="form-control" rows="3" th:field="*{esperado}" th:errorclass="is-invalid"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('esperado')}" th:errors="*{esperado}">Erro</div>
+                    </div>
+                    <div class="col-12 text-muted small">
+                        Registrado por <span th:text="${usuarioAtual}">usuário</span>. * Campos obrigatórios.
+                    </div>
+                </div>
+                <div class="mt-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-app"><i class="bi bi-send"></i> Enviar registro</button>
+                    <a th:href="@{/}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: rodape}"></footer>
+</body>
+</html>

@@ -11,7 +11,12 @@
 <main class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h4 mb-0">Painel</h1>
-        <span class="text-muted small" th:text="'Atualizado em ' + ${#temporals.format(agora, 'dd/MM/yyyy HH:mm')}">Atualizado em</span>
+        <div class="d-flex align-items-center gap-3">
+            <a th:href="@{/ocorrencias/nova}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-chat-square-text"></i> Registrar ocorrência ou sugestão
+            </a>
+            <span class="text-muted small" th:text="'Atualizado em ' + ${#temporals.format(agora, 'dd/MM/yyyy HH:mm')}">Atualizado em</span>
+        </div>
     </div>
 
     <!-- Cartões de indicadores: th:each repete o cartão para cada indicador da lista -->

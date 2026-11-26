@@ -43,6 +43,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/tecnicos").authenticated()
                     // Apenas o ADMIN pode cadastrar, editar ou excluir técnicos
                     .requestMatchers("/tecnicos/**").hasRole("ADMIN")
+                    // Administradores e operadores podem registrar e consultar ocorrências
+                    .requestMatchers("/ocorrencias/**").authenticated()
                     // Todo o resto exige estar logado (qualquer perfil)
                     .anyRequest().authenticated());
         } else {

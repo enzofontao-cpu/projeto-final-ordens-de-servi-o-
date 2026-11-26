@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ocorrências e sugestões')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 mb-0">Ocorrências e sugestões</h1>
+        <a th:href="@{/ocorrencias/nova}" class="btn btn-app">
+            <i class="bi bi-plus-lg"></i> Novo registro
+        </a>
+    </div>
+
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
+
+    <div th:if="${#lists.isEmpty(ocorrencias)}" class="alert alert-info">
+        Nenhuma ocorrência ou sugestão registrada.
+    </div>
+    <div class="row g-3" th:unless="${#lists.isEmpty(ocorrencias)}">
+        <div class="col-12" th:each="ocorrencia : ${ocorrencias}">
+            <article class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <span class="fw-semibold" th:text="${ocorrencia.tipo.descricao}">Tipo</span>
+                    <span class="text-muted small"
+                          th:text="${#temporals.format(ocorrencia.dataRegistro, 'dd/MM/yyyy HH:mm')}">Data</span>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>Onde:</strong> <span th:text="${ocorrencia.local}">Local</span></p>
+                    <p class="mb-2"><strong>Passos:</strong> <span class="text-break" th:text="${ocorrencia.passos}">Passos</span></p>
+                    <p class="mb-2"><strong>O que aconteceu:</strong> <span class="text-break" th:text="${ocorrencia.ocorrido}">Ocorrido</span></p>
+                    <p class="mb-2"><strong>Esperado:</strong> <span class="text-break" th:text="${ocorrencia.esperado}">Esperado</span></p>
+                    <p class="text-muted small mb-0">Registrado por <span th:text="${ocorrencia.usuario}">usuário</span></p>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: rodape}"></footer>
+</body>
+</html>

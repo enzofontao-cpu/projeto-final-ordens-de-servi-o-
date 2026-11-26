@@ -39,6 +39,7 @@ Empresas que realizam manutenção e assistência técnica precisam controlar os
 | RF03 | O sistema deve permitir abrir, consultar, editar e excluir ordens de serviço. | Essencial |
 | RF04 | O sistema deve permitir associar uma ordem de serviço a um cliente e a um técnico responsável. | Essencial | 
 | RF05 | O sistema deve permitir registrar o equipamento, o defeito relatado, o diagnóstico e o valor do serviço. | Essencial |
+| RF06 | O sistema deve permitir que administradores e operadores registrem e consultem ocorrências e sugestões de melhoria. | Essencial |
 
 ### 2.2 Requisitos não funcionais (COMO o sistema deve ser)
 
@@ -193,6 +194,7 @@ A inteligência artificial foi utilizada como ferramenta de apoio ao desenvolvim
 - Abertura e acompanhamento das ordens de serviço.
 - Situação de cada ordem: aberta, em andamento ou concluída.
 - Painel com os indicadores do atendimento.
+- Registro e consulta compartilhada de ocorrências e sugestões de melhoria por administradores e operadores.
 - Login com dois perfis: o Administrador pode tudo; o Operador consulta clientes e técnicos, abre ordens de serviço e muda a situação delas.
 
 ### Telas
